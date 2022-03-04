@@ -1,0 +1,7 @@
+<app-painel-esquerdo (event)="pageToLoad($event)" ></app-painel-esquerdo>
+<div class="content-container">
+    <router-outlet></router-outlet>
+</div>
+<div class="spinner" *ngIf="spinnerStatus">
+    <app-progress-spinner [spinnerActive]="spinnerStatus"></app-progress-spinner>
+</div>

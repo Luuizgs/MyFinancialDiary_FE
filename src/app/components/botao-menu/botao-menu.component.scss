@@ -1,0 +1,44 @@
+@import 'variables';
+
+:host {
+  display: block;
+  width: 100%;
+
+  button {
+    font-size: .9rem;
+    min-width: 200px;
+    min-height: 40px;
+    border-radius: 5px;
+    background-color: $cor-button;
+    color: $cor-titulo;
+    margin-left: 3%;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+
+    i {
+      vertical-align: middle;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      margin-left: 15px;
+    }
+
+    &.btn-selecionado {
+      background-color: $cor-buttonSelecionado !important;
+      color: $cor-titulo !important;
+    }  
+  }
+
+  button:hover {
+    background: $cor-buttonSelecionado !important;
+    color: $cor-titulo !important;
+    border-color: #7a38a7 !important;
+    font-weight: 600;
+  }
+}

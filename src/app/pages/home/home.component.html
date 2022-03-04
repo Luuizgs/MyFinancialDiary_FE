@@ -1,0 +1,52 @@
+<div class="lancamento-container center shadow-around">
+  <div class="title">
+    <h3>Últimos Lançamentos</h3>
+  </div>
+  <div class="content-container">
+    <p-table responsiveLayout="scroll" [value]="lastAddedLancamentos">
+      <ng-template pTemplate="header">
+        <tr [ngClass]="{ 'bg' : true }">
+          <th>
+            Data
+          </th>
+          <th>
+            Valor
+          </th>
+          <th>
+            Tipo
+          </th>
+          <th>
+            Tipo Transação
+          </th>
+          <th>
+            Observação
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-lancamento>
+        <tr [ngClass]="{ 'bg' : true }">
+          <td>
+            {{lancamento.data}}
+          </td>
+          <td>
+            {{lancamento.valor}}
+          </td>
+          <td>
+            {{lancamento.tipo}}
+          </td>
+          <td>
+            {{lancamento.tipoTransacao}}
+          </td>
+          <td>
+            {{lancamento.Obs}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="graph-container center shadow-around">
+  <p-chart type="bar" [data]="chartData" [options]="chartOptions" 
+        width="40vw" height="40vh"></p-chart>
+</div>

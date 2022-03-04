@@ -1,0 +1,33 @@
+<p-toast position="top-center" key="invalidLogin"></p-toast>
+
+<div class="base flex flex-center">
+  <img src="assets/images/logo.svg" alt="" srcset="">
+
+  <div>
+
+    <div class="p-inputgroup">
+      <span class="p-float-label">
+        <input id="float-input-invalid" type="text" pInputText [(ngModel)]="username"
+          [class]="invalidUsername ? 'ng-invalid ng-dirty' : ''">
+        <label for="float-input">Usuário</label>
+      </span>
+      <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+    </div>
+
+    <div class="p-inputgroup">
+      <span class="p-float-label">
+        <input [type]="showPassword ? 'text' : 'password'" pInputText [(ngModel)]="password"
+          [class]="invalidPassword ? 'ng-invalid ng-dirty' : ''">
+        <label for="float-input">Password</label>
+      </span>
+      <button type="button" pButton pRipple [icon]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+        (click)="showPass()"></button>
+    </div>
+
+
+    <button class="btn-login" pButton pRipple label="Login" (click)="login()">
+    </button>
+
+  </div>
+
+</div>

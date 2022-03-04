@@ -1,0 +1,42 @@
+<div class="menus flex">
+  <div class="image-container flex flex-center">
+    <img src="assets/images/logo.svg" alt="" srcset="">
+  </div>
+
+  <div class="title-container">
+    <p-avatar icon="pi pi-user" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+    <div class="user-name">
+      <h5 pTooltip="Clique para abrir o Perfil">{{ usuario.nome }}</h5>
+    </div>
+    <i class="pi pi-sign-out" (click)="logout()"></i>
+  </div>
+
+  <div class="menu-container flex opcoes">
+    <app-botao-menu [buttonLabel]="'Home'" [buttonIcon]="'pi pi-home'"
+      [isButtonSelecionado]="menuSelecionado === 'home'" (onClickBotaoMenu)="buttonClick('home')"></app-botao-menu>
+
+    <app-botao-menu [buttonLabel]="'Dashboard'" [buttonIcon]="'pi pi-chart-line'"
+      [isButtonSelecionado]="menuSelecionado === 'dashboard'" (onClickBotaoMenu)="buttonClick('dashboard')">
+    </app-botao-menu>
+
+    <app-botao-menu [buttonLabel]="'Resumo'" [buttonIcon]="'pi pi-book'"
+      [isButtonSelecionado]="menuSelecionado === 'resumo'" (onClickBotaoMenu)="buttonClick('resumo')"></app-botao-menu>
+
+    <app-botao-menu [buttonLabel]="'Diário Mensal'" [buttonIcon]="'pi pi-money-bill'"
+      [isButtonSelecionado]="menuSelecionado === 'diariomensal'" (onClickBotaoMenu)="buttonClick('diariomensal')">
+    </app-botao-menu>
+
+    <app-botao-menu [buttonLabel]="'Compras Parceladas'" [buttonIcon]="'pi pi-credit-card'"
+      [isButtonSelecionado]="menuSelecionado === 'comprasparceladas'" (onClickBotaoMenu)="buttonClick('comprasparceladas')">
+    </app-botao-menu>
+
+    <app-botao-menu [buttonLabel]="'Renda'" [buttonIcon]="'pi pi-dollar'"
+      [isButtonSelecionado]="menuSelecionado === 'renda'" (onClickBotaoMenu)="buttonClick('renda')"></app-botao-menu>
+
+  </div>
+
+</div>
+
+<div class="usuario-info">
+  <h3>Created by Luiz Guilherme;</h3>
+</div>
