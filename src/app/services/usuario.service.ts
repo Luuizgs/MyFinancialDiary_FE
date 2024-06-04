@@ -1,42 +1,27 @@
 import { Injectable } from '@angular/core';
-import { IUsuario } from '../Interfaces/IUsuario';
+import { IUsuario } from '../Interfaces/Entities/IUsuario';
 import { v4 as Guidv4 } from 'uuid';
+import { HttpClient } from '@angular/common/http';
+import { MFDApi } from 'src/environments/environment';
+import { IUserStorage } from '../Interfaces/Entities/IUserStorage';
+import { IUsuarioResponse } from '../Interfaces/Responses/IUsuarioResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  usuario: IUsuario;
+  private usuario: IUsuario;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  async inicializaUsuario() {
-    if (!!this.usuario)
-      return true;
-
-    const token = localStorage.getItem('token');
-
-    if (!token) 
-      return false;
-
-    try {
-      // TODO: Trocar isso para usar a API do Back, qnd ela estiver pronta. 
-      // pra poder deslogar o cara qnd o token estiver vencido
-      this.usuario =  await this.getUsuario();
-      return true;
-    } catch(ex) {
-      return false;
-    }
-  }
-
-  async getUsuario(): Promise<IUsuario> {
+  async getUsuarioById(usuarioId: string): Promise<IUsuarioResponse> {
     return new Promise((resolve) => {
-      return resolve({ id: Guidv4(), nome: 'Carol' });
+      this.http.get(`${MFDApi.Url}/Usuario/${usuarioId}`)
+      .subscribe( (response) => {
+        return resolve(response as IUsuarioResponse);
+      });
     });
   }
 
-  getMe() {
-    return this.usuario;
-  }
 }

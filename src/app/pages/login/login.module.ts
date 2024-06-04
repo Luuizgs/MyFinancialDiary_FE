@@ -9,6 +9,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
+// import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 
 @NgModule({
   declarations: [LoginComponent],

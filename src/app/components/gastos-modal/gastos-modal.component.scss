@@ -1,0 +1,81 @@
+@import 'variables.scss';
+
+.container {
+  //   border: 2px solid blue;
+  width: 95%;
+
+  &-table {
+    min-width: 640px;
+  }
+}
+
+.payment-type {
+  border-radius: 15px;
+
+  div {
+    padding: 0.2em;
+    margin-top: 5px;
+    border-radius: 15px;
+    text-align: left;
+  }
+
+  span {
+    margin: 0 5px;
+  }
+
+  .dot {
+    font-size: 1.5rem;
+  }
+}
+
+p-table {
+
+  th,
+  td {
+    text-align: center;
+  }
+}
+
+p-toolbar {
+  button {
+    margin-right: 1em;
+  }
+}
+
+.btn-semi-rounded {
+  border-radius: 15px;
+}
+
+::ng-deep {
+
+  .p-toolbar {
+    background-color: white !important;
+  }
+
+  .p-dialog,
+  .p-dialog-footer,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-paginator-page {
+    background-color: $cor-fundo !important;
+  }
+
+  .p-dialog-header {
+    border-bottom: 0 !important;
+
+    span {
+      color: $cor-titulo !important;
+    }
+  }
+
+  .p-paginator-page {
+    color: $cor-titulo !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+    margin: 10px !important;
+  }
+}
+
+.inpt-m-16 {
+  margin: 1em;
+}

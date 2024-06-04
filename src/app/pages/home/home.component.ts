@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ILancamento } from 'src/app/Interfaces/ILancamento';
-import { v4 as Guidv4 } from 'uuid';
+import { IDiarioMensal } from 'src/app/Interfaces/Entities/IDiarioMensal';
+import { IGasto } from 'src/app/Interfaces/Entities/IGasto';
+import { IUserStorage } from 'src/app/Interfaces/Entities/IUserStorage';
+import { DiarioMensalService } from 'src/app/services/diariomensal.service';
+import { getTodosMeses } from 'src/app/utils/FuncHelpers';
 
 @Component({
   selector: 'app-home',
@@ -9,48 +12,50 @@ import { v4 as Guidv4 } from 'uuid';
 })
 export class HomeComponent implements OnInit {
 
-  lastAddedLancamentos: ILancamento[] = [ ];
-  totalLancamentos: ILancamento[] = [ ];
-  arrayTipos:string[] = [
-    'Cartão Débito',
-    'Cartão Crédito',
-    'Dinheiro',
-    'Pix'
+  lastAddedGastos: IGasto[] = [ ];
+  totalLancamentos: IGasto[] = [ ];
+  arrayFormaPagamento:any[] = [
+    { descricao: 'Cartão Débito', tipo: 1 },
+    { descricao: 'Cartão Crédito', tipo: 2 }
   ];
   chartData: any;
   chartOptions: any;
 
-  constructor() { }
+  constructor(private diarioMensalService: DiarioMensalService) { }
 
   ngOnInit(): void {
+    
     this.loadLancamentos();
     this.loadChart(); 
   }
 
+  getUsuario() {
+    const userStorage: IUserStorage = JSON.parse(localStorage.getItem('userStorage'));
+    return userStorage.user;
+  }
 
-  loadLancamentos() {
-    for (let index = 0; index < 15; index++) {
-      const element: ILancamento = {
-        
-        id: this.getLancamentoId(),
-        data: this.getLancamentoData(),
-        tipo: index % 2 == 0 ? 'Débito' : 'Crédito',
-        tipoTransacao: this.getTipo() ,
-        valor: `R$ ${ ((index + 1) * 100) / 2 },00`,
-        Obs: index % 2 == 0 ? 'Nenhuma' : 'Teste'
 
-      };
-      this.totalLancamentos.push(element);
-    }
+  async getDiarioMensalAtual() {
+    const response: any = await this.diarioMensalService.getDiarioMensalByMesAtual(this.getUsuario().id);
+    if (response.diarioMensal == null)
+      return;
 
-    for (let index = 0; index < 4; index++) {
-      const element = this.totalLancamentos[index];
-      this.lastAddedLancamentos.push(element);
-    }
+    return response;
+  }
+
+  async loadLancamentos() {
+    const response: any = await this.diarioMensalService.getDiarioMensalByMesAtual(this.getUsuario().id);
+    if (response.diarioMensal == null)
+      return;
+    const diarioMensal = (await this.getDiarioMensalAtual()).diarioMensal;
+    this.lastAddedGastos = diarioMensal.gastos;
+    console.log('LoadLancamentos: ', response);
+    console.log('diarioMensal: ', diarioMensal);
+    console.log('lastAddedGastos: ', this.lastAddedGastos);
 
   }
 
-  loadChart() {
+  async loadChart() {
 
     const groupBy = (array: any, key: any) => {
       return array.reduce((result: any, currentValue: any) => {
@@ -61,31 +66,44 @@ export class HomeComponent implements OnInit {
         return result;
       }, {}); 
     };
-
-    const arrayGroupBy = groupBy(this.totalLancamentos, 'tipoTransacao');
+    const diarioMensal = (await this.getDiarioMensalAtual()).diarioMensal;
+    this.totalLancamentos = diarioMensal.gastos;
+    const arrayGroupBy = groupBy(this.totalLancamentos, 'formaPagamento');
 
     let dataSet: any = [ ];
-    this.arrayTipos.forEach((item: any) => {
+    this.arrayFormaPagamento.forEach((fp: any) => {
       let size: any;
-      if (arrayGroupBy[item])
-        size = arrayGroupBy[item].length;
+      if (arrayGroupBy[fp.tipo])
+        size = arrayGroupBy[fp.tipo].length;
       else 
         size = 0;
       dataSet.push(size);
     });
 
+    const mesAtual = (getTodosMeses())[new Date().getMonth()];
+    const labelMonthChart = mesAtual;
+    const chartLabels = this.arrayFormaPagamento.map(fp => fp.descricao);
     this.chartData = {
-      labels: this.arrayTipos,
+      labels: chartLabels,
       datasets: [
         {
-          label: 'Lançamentos de Fevereiro',
-          backgroundColor: '#42A5F5',
-          data: dataSet
+          label: labelMonthChart,
+          data: dataSet,
+          backgroundColor: [ '#42A5F5', '#87CEFA'],
+          borderColor: '#4682B4',
+          borderWidth: 1,
         }
       ]
     };
 
     this.chartOptions = {
+      plugins: {
+        legend: {
+          labels: {
+            color: '#778899'
+          }
+        }
+      }
       // title: {
       //   display: false,
       //   text: 'Lançamentos de Fevereiro',
@@ -97,21 +115,4 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  getLancamentoId(): string {
-    return Guidv4();
-  }
-
-  getTipo() {
-    const position = this.getRandomNumber(0, 3);
-
-    return this.arrayTipos[position];
-  }
-
-  getLancamentoData():string {
-    return this.getRandomNumber(1, 28) + '/02' + '/2022';
-  }
-
-  private getRandomNumber(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
 }

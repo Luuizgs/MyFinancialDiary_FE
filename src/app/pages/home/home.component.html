@@ -3,7 +3,7 @@
     <h3>Últimos Lançamentos</h3>
   </div>
   <div class="content-container">
-    <p-table responsiveLayout="scroll" [value]="lastAddedLancamentos">
+    <p-table responsiveLayout="scroll" [value]="lastAddedGastos">
       <ng-template pTemplate="header">
         <tr [ngClass]="{ 'bg' : true }">
           <th>
@@ -23,22 +23,22 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-lancamento>
+      <ng-template pTemplate="body" let-gasto>
         <tr [ngClass]="{ 'bg' : true }">
           <td>
-            {{lancamento.data}}
+            {{gasto.dataLancamento | date: 'dd/MM/yyyy'}}
           </td>
           <td>
-            {{lancamento.valor}}
+            {{gasto.valor | currency: 'R$ '}}
           </td>
           <td>
-            {{lancamento.tipo}}
+            {{gasto.tipo | gastoDescricao }}
           </td>
           <td>
-            {{lancamento.tipoTransacao}}
+            {{gasto.formaPagamento | pagamentoDescricao }}
           </td>
           <td>
-            {{lancamento.Obs}}
+            {{gasto.descricao}}
           </td>
         </tr>
       </ng-template>
@@ -47,6 +47,5 @@
 </div>
 
 <div class="graph-container center shadow-around">
-  <p-chart type="bar" [data]="chartData" [options]="chartOptions" 
-        width="40vw" height="40vh"></p-chart>
+  <p-chart type="bar" [data]="chartData" [options]="chartOptions" width="40vw" height="40vh"></p-chart>
 </div>

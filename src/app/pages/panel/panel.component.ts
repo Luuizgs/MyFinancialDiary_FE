@@ -23,7 +23,7 @@ export class PanelComponent implements OnInit {
     await this.spinnerService.turnOffSpinner();
     setTimeout( () => {
       this.spinnerStatus = this.spinnerService.spinnerStatus;
-      if (pageToLoad == 'home') this.router.navigateByUrl(`in/${pageToLoad}`);
+      if (pageToLoad == 'home' || pageToLoad == 'diariomensal') this.router.navigateByUrl(`in/${pageToLoad}`);
     }, 2000);
   }
 }

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUsuario } from 'src/app/Interfaces/IUsuario';
+import { IUserStorage } from 'src/app/Interfaces/Entities/IUserStorage';
+import { IUsuario } from 'src/app/Interfaces/Entities/IUsuario';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { toCamelCase } from 'src/app/utils/FuncHelpers';
 
 @Component({
   selector: 'app-painel-esquerdo',
@@ -12,7 +14,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 
 export class PainelEsquerdoComponent implements OnInit {
   public usuario: IUsuario;
-  public menuSelecionado: string = 'home';
+  public menuSelecionado: string;
 
   @Output()
   event = new EventEmitter<string>();
@@ -23,7 +25,10 @@ export class PainelEsquerdoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.usuario = this.usuarioService.usuario;
+    this.menuSelecionado = 'home';
+    this.usuario = this.getUsuario();
+    this.usuario.username = toCamelCase(this.usuario.username);
+    this.menuSelecionado = '';
   }
 
   buttonClick(button: string) {
@@ -34,5 +39,10 @@ export class PainelEsquerdoComponent implements OnInit {
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+
+  getUsuario() {
+    const userStorage: IUserStorage = JSON.parse(localStorage.getItem('userStorage'));
+    return userStorage.user;
   }
 }

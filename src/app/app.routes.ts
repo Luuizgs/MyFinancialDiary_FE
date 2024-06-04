@@ -8,6 +8,11 @@ export const AppRotas: Routes = [
         pathMatch: 'full'
     },
     {
+        path: 'RefreshComponent',
+        redirectTo: 'in',
+        pathMatch: 'full'
+    },
+    {
         path: 'login',
         loadChildren: () => import('./pages/login/login.module').then(y => y.LoginModule)
     },

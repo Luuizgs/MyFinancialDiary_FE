@@ -20,12 +20,12 @@
           [class]="invalidPassword ? 'ng-invalid ng-dirty' : ''">
         <label for="float-input">Password</label>
       </span>
-      <button type="button" pButton pRipple [icon]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+      <button type="button" class="btn" pButton pRipple [icon]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
         (click)="showPass()"></button>
     </div>
 
 
-    <button class="btn-login" pButton pRipple label="Login" (click)="login()">
+    <button class="btn-login btn" pButton pRipple label="Login" (click)="login()">
     </button>
 
   </div>

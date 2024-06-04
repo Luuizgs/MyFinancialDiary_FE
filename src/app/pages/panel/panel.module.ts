@@ -14,6 +14,17 @@ import { TooltipModule } from 'primeng/tooltip';
 import { HomeComponent } from '../home/home.component';
 import { TableModule } from 'primeng/table';
 import { ChartModule } from 'primeng/chart';
+import { GastoDescricaoPipe } from 'src/app/pipes/gastodescricao.pipe';
+import { PagamentoDescricaoPipe } from 'src/app/pipes/pagamentodescricao.pipe';
+import { DiarioMensalComponent } from '../diario-mensal/diario-mensal.component';
+import { GastosModalComponent } from 'src/app/components/gastos-modal/gastos-modal.component';
+import { DialogModule } from 'primeng/dialog';
+import { PaginatorModule } from 'primeng/paginator';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -22,17 +33,29 @@ import { ChartModule } from 'primeng/chart';
     BotaoMenuComponent,
     ProgressSpinnerComponent,
     HomeComponent,
+    DiarioMensalComponent,
+    GastosModalComponent,
+
+    GastoDescricaoPipe,
+    PagamentoDescricaoPipe
   ],
   imports: [
     CommonModule,
     ButtonModule,
     RippleModule,
     RouterModule.forChild(PanelRotas),
-    ProgressSpinnerModule,
     AvatarModule,
     TooltipModule,
     TableModule,
-    ChartModule
+    ChartModule,
+    DialogModule,
+    ProgressSpinnerModule,
+    PaginatorModule,
+    ToolbarModule,
+    CalendarModule,
+    InputTextModule,
+    DropdownModule,
+    InputSwitchModule
   ],
 })
 export class PanelModule {}

@@ -1,0 +1,202 @@
+<div class="container-table">
+
+  <p-dialog header="Gastos" [(visible)]="showModalGastos" [modal]="true" [draggable]="false" [resizable]="false"
+    [closable]="false" [style]="{width: '55vw', height: '90vh'}">
+    <div class="container">
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <button pButton pRipple label="New" icon="pi pi-plus" class="btn"
+            (click)="openGasto(null, 'Novo Gasto')"></button>
+          <button pButton pRipple label="Export" icon="pi pi-upload" class="btn"></button>
+        </ng-template>
+      </p-toolbar>
+
+      <div class="flex flex-gap-10 flex-space-around">
+        <div>
+          <div class="payment-type" *ngFor="let item of listOfExpenses">
+            <div class="flex flex-align-center flex-space-between" [style.background-color]="item.color">
+              <!-- <span class="dot">●</span> -->
+              <span>{{ item.expense }}</span>
+              <span>{{ item.howMany }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-table">
+          <p-table [value]="gastos" [paginator]="true" [rows]="5" [showCurrentPageReport]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Data Lançamento</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <!-- <th>Tipo Pagamento</th>
+          <th>Recorrente</th>
+          <th>Nome do Cartão</th>
+          <th>Parcelas</th> -->
+                <th>Ações</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-gasto>
+              <tr>
+                <td>
+                  {{gasto.dataLancamento | date: 'dd/MM/yyyy'}}
+                </td>
+                <td>
+                  {{gasto.valor | currency: 'R$ '}}
+                </td>
+                <td>{{gasto.descricao}}</td>
+                <td>
+                  {{gasto.tipo | gastoDescricao }}
+                </td>
+                <!-- <td>
+            {{gasto.formaPagamento | pagamentoDescricao }}
+          </td>
+          <td>{{ gasto.recorrente ? gasto.recorrente : '-' }}</td>
+          <td>{{ gasto.nomeCartao ? gasto.nomeCartao : '-' }}</td>
+          <td>{{ gasto.parcelas ? gasto.parcelas : '-' }}</td> -->
+                <td class="flex flex-space-between flex-gap-5">
+                  <button pButton pRipple icon="pi pi-pencil" class="btn btn-semi-rounded"
+                    (click)="openGasto(gasto, 'Editar Gasto')">
+                    <!-- (click)="editProduct(product) -->
+                  </button>
+                  <button pButton pRipple icon="pi pi-trash" class="btn btn-semi-rounded">
+                    <!-- (click)="deleteProduct(product)" -->
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+        <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+      </ng-template> -->
+          </p-table>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="closeModal(showModalGastos)" label="Fechar" styleClass="p-button-text">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+</div>
+
+<!-- [(visible)]="displayGastoModal" -->
+
+<p-dialog [header]="headerModal" [(visible)]="displayGastoModal" [modal]="true"
+  [style]="{width: '40vw', height: '70vh'}" [draggable]="false" [resizable]="false" [closable]="false">
+  <div class="container">
+    <div class="grid">
+
+      <div class="col-6">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="dataLancamento">Data Lançamento</label>
+          <input id="float-input" type="date" pInputText [(ngModel)]="selectedGasto.dataLancamento" />
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="valor" class="block">Valor</label>
+          <p-inputNumber inputId="valor" mode="currency" currency="BRL" [(ngModel)]="selectedGasto.valor">
+          </p-inputNumber>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="col">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="tipoGasto">Tipo Gasto</label>
+          <p-dropdown [options]="despesaDropdown" [(ngModel)]="selectedGasto.tipo" placeholder="Select"
+            optionLabel="name" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="formaPagamento" class="block">Forma Pagamento</label>
+          <p-dropdown [options]="paymentTypeDropdown" [(ngModel)]="selectedGasto.formaPagamento" placeholder="Select"
+            optionLabel="name" [showClear]="true"></p-dropdown>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="col-12">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="Descrição" class="block">Descrição</label>
+          <input id="Descrição" type="text" pInputText [(ngModel)]="selectedGasto.descricao" />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="col-12">
+        <div class="flex flex-dir-col flex-gap-7">
+          <label for="Recorrente" class="block">Recorrente</label>
+          <p-inputSwitch [(ngModel)]="selectedGasto.recorrente"></p-inputSwitch>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="selectedGasto.recorrente">
+      <div class="grid">
+
+        <div class="col-6">
+          <div class="flex flex-dir-col flex-gap-7">
+            <label for="dataInicio">Data Início</label>
+            <input id="float-input" type="date" pInputText [(ngModel)]="selectedGasto.dataInicio" />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="flex flex-dir-col flex-gap-7">
+            <label for="dataTermino">Data Término</label>
+            <input id="float-input" type="date" pInputText [(ngModel)]="selectedGasto.dataTermino" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="grid">
+
+        <div class="col-2">
+          <div class="flex flex-dir-col flex-gap-7">
+            <label for="parcelas">Parcelas</label>
+            <input id="float-input" type="text" pInputText [(ngModel)]="selectedGasto.parcelas" />
+          </div>
+        </div>
+
+        <div class="col-5">
+          <div class="flex flex-dir-col flex-gap-7">
+            <label for="dataTermino">Nome Cartão</label>
+            <input id="float-input" type="text" pInputText [(ngModel)]="selectedGasto.nomeCartao" />
+          </div>
+        </div>
+
+        <div class="col-5">
+          <div class="flex flex-dir-col flex-gap-7">
+            <label for="observacao">Observação</label>
+            <input id="float-input" type="text" pInputText [(ngModel)]="selectedGasto.observacao" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" label="Save" (onClick)="saveGastoModal()" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="displayGastoModal=false" label="Cancel" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

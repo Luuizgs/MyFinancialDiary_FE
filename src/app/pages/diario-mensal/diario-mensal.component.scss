@@ -1,0 +1,35 @@
+@import 'variables.scss';
+
+
+// ::ng-deep {
+//   .p-datable {
+//     max-width: 80% !important;
+//   }
+// }
+
+.container {
+  width: 95%;
+
+  &-toolbar {
+    width: 16%;
+  }
+
+  p-table {
+    button {
+      cursor: pointer;
+      padding: 1em;
+      border-radius: 15px;
+    }
+    th, td {
+        text-align: center;
+    }
+  }
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.page-title {
+  color: $cor-titulo;
+}

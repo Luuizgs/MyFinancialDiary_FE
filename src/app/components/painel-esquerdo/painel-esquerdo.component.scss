@@ -9,7 +9,8 @@ $h-footer-credit: 100px;
 $h-desconsiderar: calc($h-logo + $h-menu-opcoes + $mb-entre-menu);
 
 :host {
-  max-width: 300px;
+  max-width: 305px;
+  min-width: 300px;
   min-height: 100vh;
   background-color: $cor-painelEsquerdo;
   overflow-y: hidden;

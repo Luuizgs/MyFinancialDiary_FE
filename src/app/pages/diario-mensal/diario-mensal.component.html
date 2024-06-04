@@ -1,0 +1,47 @@
+<div class="container page-title text-center">
+  <h1>Diário Mensal</h1>
+</div>
+
+<div class="container mt-10">
+  <div class="container mb-4">
+    <button pButton pRipple label="Novo Diário Mensal" icon="pi pi-plus" class="btn"
+    (click)="criarNovoDiarioMensal()"></button>
+  </div>
+  <p-table [value]="diarios"
+    [paginator]="true" [rows]="takeDefault" [totalRecords]="totalItems"  [showCurrentPageReport]="true" responsiveLayout="scroll">
+    <!-- 
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+      [rowsPerPageOptions]="[10,20]"
+    -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="ano">Ano <p-sortIcon field="ano"></p-sortIcon></th>
+        <th pSortableColumn="mes">Mes <p-sortIcon field="mes"></p-sortIcon></th>
+        <th pSortableColumn="createdOn">Data Criação <p-sortIcon field="createdOn"></p-sortIcon></th>
+        <th>Quantidade Lançamentos</th>
+        <th>Ação</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-diario>
+      <tr>
+        <td>{{ diario.ano }}</td>
+        <td>{{ diario.mes }}</td>
+        <td>{{ diario.createdOn | date: 'dd/MM/yyyy'}}</td>
+        <td>{{ diario.gastos.length }}</td>
+        <td><button pRipple type="button" class="btn" pTooltip="Abrir todos Gastos do Mês" (click)="abrirGastosByDiarioMensal(diario.id)"><i class="pi pi-folder-open"></i></button></td>
+      </tr>
+    </ng-template>
+    <!-- <ng-template pTemplate="paginatorleft">
+      <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+      <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+    </ng-template> -->
+            
+  </p-table>
+  <!-- <p-paginator [rows]="resultadoPaginado.take" [totalRecords]="resultadoPaginado.totalItems" (onPageChange)="onPageChange($event)"
+          [showJumpToPageDropdown]="true" [showPageLinks]="false"></p-paginator> -->
+</div>
+
+<app-gastos-modal [showModalGastos]="showModalGastos" [diarioMensalId]="dMensalId"></app-gastos-modal>
+
